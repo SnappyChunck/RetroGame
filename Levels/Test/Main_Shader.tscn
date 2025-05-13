@@ -1,0 +1,92 @@
+[gd_scene load_steps=9 format=3 uid="uid://d2vgv6ie0v40s"]
+
+[ext_resource type="Shader" uid="uid://fkhdvjfqkiv5" path="res://Shader/ps1-shader.gdshader" id="1_5dq7c"]
+[ext_resource type="PackedScene" uid="uid://db2inodtxnpky" path="res://Main.tscn" id="3_5n4q8"]
+[ext_resource type="Texture2D" uid="uid://b0x3xorbi3teh" path="res://cross.png" id="3_mfdcq"]
+[ext_resource type="PackedScene" uid="uid://lqyku5wn2wo0" path="res://Player/player.tscn" id="3_n5mrc"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4rr74"]
+shader = ExtResource("1_5dq7c")
+shader_parameter/color_depth = 5
+shader_parameter/dithering = true
+shader_parameter/resolution_scale = 2
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_5dq7c"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_t5ash"]
+sky_material = SubResource("ProceduralSkyMaterial_5dq7c")
+
+[sub_resource type="Environment" id="Environment_mfdcq"]
+background_mode = 2
+sky = SubResource("Sky_t5ash")
+ambient_light_color = Color(1, 1, 0.396078, 1)
+ambient_light_sky_contribution = 0.9
+tonemap_mode = 3
+tonemap_exposure = 1.5
+tonemap_white = 16.0
+ssr_enabled = true
+ssao_enabled = true
+ssil_enabled = true
+glow_enabled = true
+fog_enabled = true
+fog_light_energy = 1.05
+volumetric_fog_enabled = true
+
+[node name="SubViewportContainer" type="SubViewportContainer"]
+material = SubResource("ShaderMaterial_4rr74")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_mfdcq")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+handle_input_locally = false
+size = Vector2i(1024, 768)
+render_target_update_mode = 4
+
+[node name="Player" parent="SubViewport" instance=ExtResource("3_n5mrc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.50277, 0)
+
+[node name="L_Main" parent="SubViewport" instance=ExtResource("3_5n4q8")]
+
+[node name="Lighting" type="Node" parent="SubViewport"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewport/Lighting"]
+environment = SubResource("Environment_mfdcq")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewport/Lighting"]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866026, -0.5, 0.75, -0.433013, 0, 5, 0)
+shadow_enabled = true
+directional_shadow_max_distance = 250.0
