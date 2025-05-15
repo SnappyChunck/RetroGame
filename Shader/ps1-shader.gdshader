@@ -3,7 +3,7 @@ shader_type canvas_item;
 
 uniform int color_depth : hint_range(1, 8) = 5;
 uniform bool dithering = true;
-uniform int resolution_scale = 4;
+uniform int resolution_scale = 2;
 
 int dithering_pattern(ivec2 fragcoord) {
 	const int pattern[] = {

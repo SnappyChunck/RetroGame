@@ -1,15 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://d2vgv6ie0v40s"]
+[gd_scene load_steps=8 format=3 uid="uid://d2vgv6ie0v40s"]
 
-[ext_resource type="Shader" uid="uid://fkhdvjfqkiv5" path="res://Shader/ps1-shader.gdshader" id="1_5dq7c"]
+[ext_resource type="Script" uid="uid://s47ke3uvc80i" path="res://Levels/Test/Main.gd" id="2_lob7x"]
 [ext_resource type="PackedScene" uid="uid://db2inodtxnpky" path="res://Main.tscn" id="3_5n4q8"]
 [ext_resource type="Texture2D" uid="uid://b0x3xorbi3teh" path="res://cross.png" id="3_mfdcq"]
-[ext_resource type="PackedScene" uid="uid://lqyku5wn2wo0" path="res://Player/player.tscn" id="3_n5mrc"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4rr74"]
-shader = ExtResource("1_5dq7c")
-shader_parameter/color_depth = 5
-shader_parameter/dithering = true
-shader_parameter/resolution_scale = 2
+[ext_resource type="PackedScene" uid="uid://3vmfhnllr1fo" path="res://Player/player.tscn" id="3_n5mrc"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_5dq7c"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -34,18 +28,30 @@ fog_enabled = true
 fog_light_energy = 1.05
 volumetric_fog_enabled = true
 
-[node name="SubViewportContainer" type="SubViewportContainer"]
-material = SubResource("ShaderMaterial_4rr74")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-stretch = true
+[node name="Main" type="Node3D"]
+script = ExtResource("2_lob7x")
+player_scene = ExtResource("3_n5mrc")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="Buttons" type="CanvasLayer" parent="."]
 
-[node name="Control" type="Control" parent="CanvasLayer"]
+[node name="Join" type="Button" parent="Buttons"]
+offset_left = 1.0
+offset_top = 7.0
+offset_right = 579.0
+offset_bottom = 120.0
+text = "Join"
+
+[node name="Host" type="Button" parent="Buttons"]
+offset_left = 1.0
+offset_top = 139.0
+offset_right = 579.0
+offset_bottom = 252.0
+text = "Host"
+
+[node name="Cross" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Control" type="Control" parent="Cross"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -54,7 +60,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control"]
+[node name="TextureRect" type="TextureRect" parent="Cross/Control"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 1
 anchors_preset = 8
@@ -71,22 +77,22 @@ grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("3_mfdcq")
 
-[node name="SubViewport" type="SubViewport" parent="."]
-handle_input_locally = false
-size = Vector2i(1024, 768)
-render_target_update_mode = 4
+[node name="Lighting" type="Node" parent="Cross"]
 
-[node name="Player" parent="SubViewport" instance=ExtResource("3_n5mrc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.50277, 0)
-
-[node name="L_Main" parent="SubViewport" instance=ExtResource("3_5n4q8")]
-
-[node name="Lighting" type="Node" parent="SubViewport"]
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewport/Lighting"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Cross/Lighting"]
 environment = SubResource("Environment_mfdcq")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewport/Lighting"]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Cross/Lighting"]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866026, -0.5, 0.75, -0.433013, 0, 5, 0)
 shadow_enabled = true
 directional_shadow_max_distance = 250.0
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://3vmfhnllr1fo")
+spawn_path = NodePath("..")
+
+[node name="L_Main" parent="." instance=ExtResource("3_5n4q8")]
+transform = Transform3D(1.0035, 0, 0, 0, 1.0035, 0, 0, 0, 1.0035, 0, -3.39262, 0)
+
+[connection signal="pressed" from="Buttons/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="Buttons/Host" to="." method="_on_host_pressed"]

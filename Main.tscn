@@ -1,6 +1,5 @@
-[gd_scene load_steps=21 format=3 uid="uid://db2inodtxnpky"]
+[gd_scene load_steps=20 format=3 uid="uid://db2inodtxnpky"]
 
-[ext_resource type="Script" uid="uid://s47ke3uvc80i" path="res://Levels/Test/Main.gd" id="1_iiyh2"]
 [ext_resource type="PackedScene" uid="uid://ctkc7yqdqdtao" path="res://Levels/Test/Geometry/Floor.tscn" id="3_anv1b"]
 [ext_resource type="PackedScene" uid="uid://cdn7d5mxwdyks" path="res://Levels/Test/Geometry/Wall.tscn" id="4_0x5ta"]
 [ext_resource type="Material" uid="uid://sofvlrq3jmka" path="res://Levels/Test/Materials/M_Dark.tres" id="5_53jw3"]
@@ -54,7 +53,7 @@ size = Vector3(14, 0.5, 4)
 data = PackedVector3Array(-7, 0.25, 2, 7, 0.25, 2, -7, -0.25, 2, 7, 0.25, 2, 7, -0.25, 2, -7, -0.25, 2, 7, 0.25, -2, -7, 0.25, -2, 7, -0.25, -2, -7, 0.25, -2, -7, -0.25, -2, 7, -0.25, -2, 7, 0.25, 2, 7, 0.25, -2, 7, -0.25, 2, 7, 0.25, -2, 7, -0.25, -2, 7, -0.25, 2, -7, 0.25, -2, -7, 0.25, 2, -7, -0.25, -2, -7, 0.25, 2, -7, -0.25, 2, -7, -0.25, -2, 7, 0.25, 2, -7, 0.25, 2, 7, 0.25, -2, -7, 0.25, 2, -7, 0.25, -2, 7, 0.25, -2, -7, -0.25, 2, 7, -0.25, 2, -7, -0.25, -2, 7, -0.25, 2, 7, -0.25, -2, -7, -0.25, -2)
 
 [node name="L_Main" type="Node3D"]
-script = ExtResource("1_iiyh2")
+transform = Transform3D(1.0035, 0, 0, 0, 1.0035, 0, 0, 0, 1.0035, 0, 0, 0)
 
 [node name="ArenaGeometry" type="Node3D" parent="."]
 
